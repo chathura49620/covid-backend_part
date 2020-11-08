@@ -23,6 +23,7 @@ class Registered
      */
     public function __construct($user)
     {
+//        dd($user);
         $this->user = $user;
     }
 }

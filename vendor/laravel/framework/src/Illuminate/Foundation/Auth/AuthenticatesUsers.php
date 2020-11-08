@@ -30,6 +30,7 @@ trait AuthenticatesUsers
      */
     public function login(Request $request)
     {
+//        dd($request);
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -42,7 +43,12 @@ trait AuthenticatesUsers
         }
 
         if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
+//             $this->sendLoginResponse($request);
+            $request->session()->regenerate();
+
+            $this->clearLoginAttempts($request);
+
+            return response()->json("Done");
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -105,8 +111,7 @@ trait AuthenticatesUsers
 
         $this->clearLoginAttempts($request);
 
-        return $this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended($this->redirectPath());
+        return response()->json("Done");
     }
 
     /**
@@ -131,9 +136,7 @@ trait AuthenticatesUsers
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ]);
+        return response()->json("Fails");
     }
 
     /**

@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use Illuminate\Support\Facades\Route;
+
+//rote for redirect api routes
+Route::get('/{any?}', 'HomeController@index')->where('any', '^(?!api\/)[\/\w\.-]*');

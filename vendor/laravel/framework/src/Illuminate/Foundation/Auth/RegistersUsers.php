@@ -28,14 +28,14 @@ trait RegistersUsers
      */
     public function register(Request $request)
     {
+//        dd($request->all());
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
 
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+        return response()->json("sucsuss");
     }
 
     /**
@@ -57,6 +57,6 @@ trait RegistersUsers
      */
     protected function registered(Request $request, $user)
     {
-        //
+
     }
 }
